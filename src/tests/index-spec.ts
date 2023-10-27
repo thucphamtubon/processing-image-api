@@ -13,10 +13,10 @@ describe('For test connection', () => {
   });
 
   describe('path: /api/image', () => {
-    const successPath = '/api/image?fileName=icelandwaterfall';
-    const successThumbPath =
-      '/api/image?fileName=icelandwaterfall&width=300&height=300';
-    const failedPath = '/api/image2?fileName=icelandwaterfall';
+    const successPath = '/api/image?fileName=icelandwaterffullSize';
+    const successThumbnailPath =
+      '/api/image?fileName=icelandwaterffullSize&width=300&height=300';
+    const failedPath = '/api/image2?fileName=icelandwaterffullSize';
 
     it(`success get: ${successPath}`, async () => {
       const res = await request.get(successPath);
@@ -24,8 +24,8 @@ describe('For test connection', () => {
       expect(res.status).toBe(200);
     });
 
-    it(`success get: ${successThumbPath}`, async () => {
-      const res = await request.get(successThumbPath);
+    it(`success get: ${successThumbnailPath}`, async () => {
+      const res = await request.get(successThumbnailPath);
 
       expect(res.status).toBe(200);
     });

@@ -1,43 +1,39 @@
 import app from '../index';
 import supertest from 'supertest';
-import { createThumbImage } from '../utils/image-handle';
+import { createThumbnailImage } from '../utils/image-handle';
 
 const request = supertest(app);
 
 describe('for test image api', () => {
   describe('path: /api/image', () => {
-    const successPath = '/api/image?fileName=icelandwaterfall';
-    const successThumbPath =
-      '/api/image?fileName=icelandwaterfall&width=300&height=300';
-
-    it(`wrong image name: ${successPath}`, async () => {
-      const thumbImage = await createThumbImage({
+    it(`wrong image name`, async () => {
+      const thumbnailImage = await createThumbnailImage({
         height: '500',
         width: '500',
         fileName: 'wrong'
       });
 
-      expect(thumbImage).not.toBeNull();
+      expect(thumbnailImage).not.toBeNull();
     });
 
-    it(`wrong width: ${successPath}`, async () => {
-      const thumbImage = await createThumbImage({
+    it(`wrong width`, async () => {
+      const thumbnailImage = await createThumbnailImage({
         height: '500',
         width: '-500',
-        fileName: 'icelandwaterfall'
+        fileName: 'icelandwaterffullSize'
       });
 
-      expect(thumbImage).not.toBeNull();
+      expect(thumbnailImage).not.toBeNull();
     });
 
-    it(`wrong height: ${successPath}`, async () => {
-      const thumbImage = await createThumbImage({
+    it(`wrong height:`, async () => {
+      const thumbnailImage = await createThumbnailImage({
         height: '-500',
         width: '500',
-        fileName: 'icelandwaterfall'
+        fileName: 'icelandwaterffullSize'
       });
 
-      expect(thumbImage).not.toBeNull();
+      expect(thumbnailImage).not.toBeNull();
     });
   });
 });

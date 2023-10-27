@@ -1,7 +1,7 @@
 import path from 'path';
 import { promises as fs } from 'fs';
 import { getFileNameWithSize } from './get-file-name-with-size';
-import { getFullImagePath, getThumbImagePath } from './get-image-path';
+import { getFullSizeImagePath, getThumbnailImagePath } from './get-image-path';
 import { sharpResizeImage } from './sharp-resize-image';
 
 interface ImageQuery {
@@ -10,13 +10,13 @@ interface ImageQuery {
   fileName?: string;
 }
 
-export const fullImagesPath = path.resolve(
+export const fullSizeImagePath = path.resolve(
   __dirname,
-  '../../assets/images/full'
+  '../../assets/images/full-size'
 );
-export const thumbImagesPath = path.resolve(
+export const thumbnailImagePath = path.resolve(
   __dirname,
-  '../../assets/images/thumb'
+  '../../assets/images/thumbnailnail'
 );
 
 export const getImagePath = async (
@@ -29,8 +29,8 @@ export const getImagePath = async (
   const isSize = !!(width && height);
 
   const filePath: string = isSize
-    ? getThumbImagePath(newFileName)
-    : getFullImagePath(newFileName);
+    ? getThumbnailImagePath(newFileName)
+    : getFullSizeImagePath(newFileName);
 
   try {
     await fs.access(filePath);
@@ -43,11 +43,11 @@ export const getImagePath = async (
   }
 };
 
-export const getAvailableFullImageNames = async (): Promise<string[]> => {
+export const getAvailableFullSizeImageNames = async (): Promise<string[]> => {
   try {
-    const fullImages = await fs.readdir(fullImagesPath);
+    const fullSizeImages = await fs.readdir(fullSizeImagePath);
 
-    return fullImages.map((fileName: string): string => {
+    return fullSizeImages.map((fileName: string): string => {
       const splittedFileNameList = fileName.split('.');
 
       return splittedFileNameList[0];
@@ -57,21 +57,21 @@ export const getAvailableFullImageNames = async (): Promise<string[]> => {
   }
 };
 
-export const checkAvailableFullImage = async (
+export const checkAvailableFullSizeImage = async (
   fileName?: string
 ): Promise<boolean> => {
   if (!fileName) return false;
 
-  const availableImageNames = await getAvailableFullImageNames();
+  const availableImageNames = await getAvailableFullSizeImageNames();
 
   return availableImageNames.includes(fileName);
 };
 
-export const getAvailableThumbImageNames = async (): Promise<string[]> => {
+export const getAvailableThumbnailImageNames = async (): Promise<string[]> => {
   try {
-    const thumbImages = await fs.readdir(thumbImagesPath);
+    const thumbnailImages = await fs.readdir(thumbnailImagePath);
 
-    return thumbImages.map((fileName: string): string => {
+    return thumbnailImages.map((fileName: string): string => {
       const splittedFileNameList = fileName.split('.');
 
       return splittedFileNameList[0];
@@ -81,7 +81,7 @@ export const getAvailableThumbImageNames = async (): Promise<string[]> => {
   }
 };
 
-export const checkAvailableThumbImage = async (
+export const checkAvailableThumbnailImage = async (
   params: ImageQuery
 ): Promise<boolean> => {
   const { fileName, width, height } = params;
@@ -89,7 +89,7 @@ export const checkAvailableThumbImage = async (
   if (!fileName || !width || !height) return false;
 
   const newFileName = getFileNameWithSize(params);
-  const filePath: string = getThumbImagePath(newFileName);
+  const filePath: string = getThumbnailImagePath(newFileName);
 
   try {
     await fs.access(filePath);
@@ -100,22 +100,22 @@ export const checkAvailableThumbImage = async (
   }
 };
 
-export const createThumbImage = async (
+export const createThumbnailImage = async (
   params: ImageQuery
 ): Promise<null | string> => {
   const { fileName, width, height } = params;
 
   if (!fileName || !width || !height) return null;
 
-  const fullImageName = `${fileName}.jpg`;
-  const fullImageFilePath = getFullImagePath(fullImageName);
+  const fullSizeImageName = `${fileName}.jpg`;
+  const fullSizeImageFilePath = getFullSizeImagePath(fullSizeImageName);
 
-  const thumbImageName = getFileNameWithSize(params);
-  const thumbImageFilePath = getThumbImagePath(thumbImageName);
+  const thumbnailImageName = getFileNameWithSize(params);
+  const thumbnailImageFilePath = getThumbnailImagePath(thumbnailImageName);
 
   return await sharpResizeImage({
-    source: fullImageFilePath,
-    target: thumbImageFilePath,
+    source: fullSizeImageFilePath,
+    target: thumbnailImageFilePath,
     width: +width,
     height: +height
   });

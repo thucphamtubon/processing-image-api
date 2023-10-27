@@ -1,8 +1,8 @@
 import express from 'express';
 import {
-  checkAvailableFullImage,
-  checkAvailableThumbImage,
-  createThumbImage,
+  checkAvailableFullSizeImage,
+  checkAvailableThumbnailImage,
+  createThumbnailImage,
   getImagePath
 } from '../utils/image-handle';
 import { ImageQuery } from '../../types/ImageQuery';
@@ -14,8 +14,8 @@ const validateImageQuery = async (
 ): Promise<null | string> => {
   const { width, height, fileName } = imageQuery;
 
-  const isAvailableFullImage = await checkAvailableFullImage(fileName);
-  if (!isAvailableFullImage) {
+  const isAvailableFullSizeImage = await checkAvailableFullSizeImage(fileName);
+  if (!isAvailableFullSizeImage) {
     return `Wrong image names`;
   }
 
@@ -23,12 +23,12 @@ const validateImageQuery = async (
 
   const widthValue = +(width || '');
   if (Number.isNaN(widthValue) || widthValue < 1) {
-    return 'Please input a positive numerical value for width.';
+    return 'Input positive numerical value for width.';
   }
 
   const heightValue = +(height || '');
   if (Number.isNaN(heightValue) || heightValue < 1) {
-    return 'Please input a positive numerical value for height.';
+    return 'Input positive numerical value for height.';
   }
 
   return null;
@@ -46,8 +46,8 @@ imageRouter.get('/', async (request, response): Promise<void> => {
 
   let error: null | string = '';
 
-  if (!(await checkAvailableThumbImage(query))) {
-    error = await createThumbImage(query);
+  if (!(await checkAvailableThumbnailImage(query))) {
+    error = await createThumbnailImage(query);
   }
 
   if (error) {
