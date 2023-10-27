@@ -13,9 +13,10 @@ describe('For test connection', () => {
   });
 
   describe('path: /api/image', () => {
-    const successPath = '/api/image?fileName=icelandwaterfall'
-    const successThumbPath = '/api/image?fileName=icelandwaterfall&width=300&height=300'
-    const failedPath = '/api/image2?fileName=icelandwaterfall'
+    const successPath = '/api/image?fileName=icelandwaterfall';
+    const successThumbPath =
+      '/api/image?fileName=icelandwaterfall&width=300&height=300';
+    const failedPath = '/api/image2?fileName=icelandwaterfall';
 
     it(`success get: ${successPath}`, async () => {
       const res = await request.get(successPath);

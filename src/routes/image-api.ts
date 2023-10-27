@@ -4,7 +4,7 @@ import {
   checkAvailableThumbImage,
   createThumbImage,
   getImagePath
-} from '../utils/file-handle';
+} from '../utils/image-handle';
 import { ImageQuery } from '../../types/ImageQuery';
 
 const imageRouter: express.Router = express.Router();

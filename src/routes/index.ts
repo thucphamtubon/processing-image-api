@@ -6,8 +6,8 @@ const routes = express.Router();
 routes.use('/api/image', imageApi);
 
 routes.get('/', (request, response) => {
-    response.send(
-      `
+  response.send(
+    `
     <h1>Image Processing API</h1>
     <p>Images:
       <ul>
@@ -24,8 +24,7 @@ routes.get('/', (request, response) => {
       </ul>
     </p>
 `
-    );
-  }
-);
+  );
+});
 
 export default routes;

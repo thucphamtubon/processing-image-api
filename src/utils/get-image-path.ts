@@ -1,5 +1,5 @@
 import path from 'path';
-import { fullImagesPath, thumbImagesPath } from './file-handle';
+import { fullImagesPath, thumbImagesPath } from './image-handle';
 
 export const getFullImagePath = (fileName: string) => {
   return path.resolve(fullImagesPath, fileName);
